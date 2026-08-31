@@ -1,0 +1,3185 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>THE STATE OF OUR RELATIONSHIP — Case File SH-2026-014</title>
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:ital,wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap');
+
+:root{
+  --void:#050307;
+  --black:#09060a;
+  --panel:#110b12;
+  --panel2:#181019;
+
+  --line:rgba(255,255,255,.09);
+  --line-soft:rgba(255,255,255,.055);
+
+  --ink:#fff8f5;
+  --ink-dim:#b9a9ae;
+  --ink-faint:#6d5d64;
+
+  --red:#ff5368;
+  --red-soft:#d94b63;
+  --rose:#f2a6b5;
+  --pink:#ffccd6;
+  --gold:#e8c58c;
+  --green:#62e6ad;
+  --yellow:#f3ca68;
+
+  --disp:'DM Sans','Helvetica Neue',Arial,sans-serif;
+  --serif:'Playfair Display',Georgia,serif;
+  --mono:'IBM Plex Mono','Courier New',monospace;
+}
+
+*{
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
+}
+
+html,body{
+  width:100%;
+  height:100%;
+}
+
+body{
+  background:var(--void);
+  color:var(--ink);
+  font-family:var(--disp);
+  overflow:hidden;
+  -webkit-font-smoothing:antialiased;
+}
+
+/* =========================================================
+   BACKGROUND
+========================================================= */
+
+body::before{
+  content:"";
+  position:fixed;
+  inset:0;
+  pointer-events:none;
+  z-index:0;
+  background:
+    radial-gradient(circle at 15% 15%, rgba(255,83,104,.08), transparent 30%),
+    radial-gradient(circle at 85% 20%, rgba(232,197,140,.07), transparent 28%),
+    radial-gradient(circle at 50% 100%, rgba(242,166,181,.07), transparent 35%);
+}
+
+.grid-overlay{
+  position:fixed;
+  inset:0;
+  pointer-events:none;
+  z-index:1;
+  opacity:.22;
+  background-image:
+    linear-gradient(to right, rgba(255,255,255,.025) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255,255,255,.025) 1px, transparent 1px);
+  background-size:60px 60px;
+}
+
+.scanline{
+  position:fixed;
+  left:0;
+  right:0;
+  height:1px;
+  z-index:2;
+  pointer-events:none;
+  background:linear-gradient(
+    to right,
+    transparent,
+    rgba(232,197,140,.18),
+    transparent
+  );
+  animation:scan 12s linear infinite;
+}
+
+@keyframes scan{
+  0%{top:-5%}
+  100%{top:105%}
+}
+
+.deck{
+  position:relative;
+  width:100vw;
+  height:100vh;
+}
+
+/* =========================================================
+   SLIDES
+========================================================= */
+
+.slide{
+  position:absolute;
+  inset:0;
+  display:flex;
+  flex-direction:column;
+
+  padding:
+    clamp(55px,7vh,100px)
+    clamp(55px,8vw,150px)
+    clamp(70px,9vh,110px);
+
+  opacity:0;
+  visibility:hidden;
+  transform:scale(.975) translateY(18px);
+
+  transition:
+    opacity .65s ease,
+    transform .65s cubic-bezier(.2,.7,.2,1);
+
+  z-index:1;
+}
+
+.slide.active{
+  opacity:1;
+  visibility:visible;
+  transform:scale(1) translateY(0);
+  z-index:3;
+}
+
+.eyebrow{
+  font-family:var(--mono);
+  font-size:clamp(.72rem,.8vw,.9rem);
+  letter-spacing:.18em;
+  color:var(--ink-faint);
+  display:flex;
+  align-items:center;
+  gap:12px;
+  margin-bottom:1.8rem;
+  text-transform:uppercase;
+}
+
+.eyebrow .dot{
+  width:8px;
+  height:8px;
+  border-radius:50%;
+  background:var(--red);
+  box-shadow:
+    0 0 10px rgba(255,83,104,.8),
+    0 0 25px rgba(255,83,104,.25);
+}
+
+.headline{
+  font-weight:700;
+  letter-spacing:-.025em;
+  line-height:1.02;
+}
+
+.footnote{
+  font-family:var(--mono);
+  font-size:.7rem;
+  color:var(--ink-faint);
+  letter-spacing:.08em;
+
+  position:absolute;
+  bottom:4vh;
+  left:clamp(55px,8vw,150px);
+  right:clamp(55px,8vw,150px);
+
+  display:flex;
+  justify-content:space-between;
+}
+
+.stamp{
+  font-family:var(--mono);
+  font-weight:600;
+  letter-spacing:.14em;
+  font-size:.78rem;
+
+  border:1.5px solid var(--red);
+  color:var(--red);
+
+  padding:8px 15px;
+  border-radius:4px;
+
+  transform:rotate(-4deg);
+  display:inline-block;
+  text-transform:uppercase;
+
+  box-shadow:0 0 25px rgba(255,83,104,.08);
+}
+
+/* =========================================================
+   COVER
+========================================================= */
+
+#slide-1{
+  justify-content:center;
+  align-items:center;
+  text-align:center;
+}
+
+.cover-glow{
+  position:absolute;
+  inset:0;
+  z-index:-1;
+
+  background:
+    radial-gradient(
+      ellipse at 50% 35%,
+      rgba(232,197,140,.12),
+      rgba(255,83,104,.045) 35%,
+      transparent 70%
+    );
+}
+
+.cover-case{
+  font-family:var(--mono);
+  font-size:clamp(.75rem,.9vw,1rem);
+  color:var(--ink-faint);
+  letter-spacing:.22em;
+  margin-bottom:2.5rem;
+}
+
+.cover-title{
+  font-size:clamp(3.4rem,7.5vw,8rem);
+  line-height:.93;
+  text-transform:uppercase;
+  font-weight:700;
+  letter-spacing:-.045em;
+}
+
+.cover-title span{
+  color:var(--gold);
+  text-shadow:0 0 35px rgba(232,197,140,.12);
+}
+
+.cover-sub{
+  font-family:var(--serif);
+  font-style:italic;
+  font-size:clamp(1.15rem,1.8vw,1.65rem);
+  color:var(--ink-dim);
+
+  margin:2rem 0 3rem;
+
+  max-width:850px;
+  line-height:1.5;
+}
+
+.cover-meta{
+  display:flex;
+  gap:clamp(2rem,4vw,5rem);
+
+  font-family:var(--mono);
+  font-size:.72rem;
+
+  color:var(--ink-faint);
+  letter-spacing:.1em;
+
+  margin-bottom:2.5rem;
+
+  text-transform:uppercase;
+}
+
+.cover-meta b{
+  color:var(--ink);
+  display:block;
+
+  font-family:var(--mono);
+  font-size:.95rem;
+
+  margin-top:6px;
+
+  letter-spacing:.05em;
+}
+
+/* =========================================================
+   STATUS CARDS
+========================================================= */
+
+.grid-2x2{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+
+  gap:1.2rem;
+
+  max-width:1200px;
+  margin-top:2rem;
+}
+
+.status-card{
+  background:
+    linear-gradient(
+      135deg,
+      rgba(255,255,255,.035),
+      rgba(255,255,255,.012)
+    );
+
+  border:1px solid var(--line);
+
+  border-left:4px solid var(--ink-faint);
+
+  padding:1.7rem 1.8rem;
+
+  border-radius:12px;
+
+  box-shadow:
+    0 20px 60px rgba(0,0,0,.15);
+
+  backdrop-filter:blur(8px);
+}
+
+.status-card.green{
+  border-left-color:var(--green);
+}
+
+.status-card.yellow{
+  border-left-color:var(--yellow);
+}
+
+.status-card.red{
+  border-left-color:var(--red);
+}
+
+.status-card .tag{
+  font-family:var(--mono);
+  font-size:.72rem;
+  letter-spacing:.12em;
+  margin-bottom:.7rem;
+  text-transform:uppercase;
+}
+
+.status-card.green .tag{
+  color:var(--green);
+}
+
+.status-card.yellow .tag{
+  color:var(--yellow);
+}
+
+.status-card.red .tag{
+  color:var(--red);
+}
+
+.status-card p{
+  color:var(--ink-dim);
+  font-size:clamp(.95rem,1vw,1.1rem);
+  line-height:1.5;
+}
+
+.overall-bar{
+  margin-top:2.2rem;
+  border-top:1px dashed var(--line);
+  padding-top:1.5rem;
+}
+
+.overall-bar .label{
+  font-family:var(--mono);
+  font-size:.72rem;
+  color:var(--ink-faint);
+  letter-spacing:.14em;
+  text-transform:uppercase;
+}
+
+.overall-bar .val{
+  font-size:clamp(2rem,3vw,3rem);
+  font-weight:700;
+  margin-top:.4rem;
+}
+
+/* =========================================================
+   HYPOTHESES
+========================================================= */
+
+.hyp-grid{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+
+  gap:1.2rem;
+
+  margin-top:2.5rem;
+}
+
+.hyp-card{
+  background:
+    linear-gradient(
+      145deg,
+      rgba(255,255,255,.04),
+      rgba(255,255,255,.01)
+    );
+
+  border:1px solid var(--line);
+
+  padding:1.8rem 1.5rem;
+
+  border-radius:14px;
+
+  text-align:left;
+
+  position:relative;
+
+  min-height:230px;
+
+  box-shadow:0 20px 70px rgba(0,0,0,.16);
+}
+
+.hyp-card .h-label{
+  font-family:var(--mono);
+  font-size:.68rem;
+  color:var(--ink-faint);
+  letter-spacing:.1em;
+}
+
+.hyp-card .h-name{
+  font-size:clamp(1.1rem,1.4vw,1.45rem);
+  font-weight:700;
+
+  margin:.7rem 0 .7rem;
+}
+
+.hyp-card p{
+  font-size:.92rem;
+  color:var(--ink-dim);
+  line-height:1.5;
+}
+
+.hyp-card.lead{
+  border-color:rgba(232,197,140,.55);
+
+  background:
+    linear-gradient(
+      180deg,
+      rgba(232,197,140,.1),
+      rgba(255,255,255,.015)
+    );
+
+  box-shadow:
+    0 0 50px rgba(232,197,140,.05);
+}
+
+.hyp-card.lead .h-name{
+  color:var(--gold);
+}
+
+/* =========================================================
+   METHODOLOGY
+========================================================= */
+
+.method-wrap{
+  display:flex;
+  gap:5rem;
+
+  align-items:center;
+
+  margin-top:2rem;
+
+  flex:1;
+}
+
+.evidence-list{
+  flex:1;
+
+  display:grid;
+  grid-template-columns:1fr 1fr;
+
+  gap:.8rem 1.2rem;
+}
+
+.evidence-item{
+  font-size:clamp(.9rem,1vw,1.05rem);
+
+  color:var(--ink-dim);
+
+  border-left:2px solid var(--line);
+
+  padding:.65rem .8rem;
+
+  transition:.2s;
+}
+
+.evidence-item:hover{
+  border-color:var(--rose);
+  color:var(--ink);
+}
+
+.engine-box{
+  flex:0 0 360px;
+
+  background:
+    linear-gradient(
+      145deg,
+      rgba(232,197,140,.08),
+      rgba(255,255,255,.015)
+    );
+
+  border:1px solid rgba(232,197,140,.55);
+
+  border-radius:14px;
+
+  padding:2rem;
+
+  text-align:center;
+
+  box-shadow:
+    0 20px 80px rgba(232,197,140,.05);
+}
+
+.engine-box .name{
+  font-family:var(--mono);
+  font-weight:600;
+
+  font-size:.95rem;
+
+  letter-spacing:.06em;
+
+  color:var(--gold);
+
+  margin-bottom:1.5rem;
+}
+
+.stat-row{
+  display:flex;
+  justify-content:space-between;
+
+  font-size:.78rem;
+
+  color:var(--ink-dim);
+
+  margin-top:.9rem;
+
+  font-family:var(--mono);
+}
+
+.stat-row b{
+  color:var(--ink);
+}
+
+/* =========================================================
+   PIE
+========================================================= */
+
+.pie-wrap{
+  display:flex;
+
+  align-items:center;
+
+  gap:6rem;
+
+  margin-top:1.5rem;
+
+  flex:1;
+}
+
+.pie{
+  width:320px;
+  height:320px;
+
+  border-radius:50%;
+
+  flex-shrink:0;
+
+  background:
+    conic-gradient(
+      var(--ink-faint) 0% 5%,
+      var(--yellow) 5% 30%,
+      var(--rose) 30% 60%,
+      var(--red) 60% 100%
+    );
+
+  box-shadow:
+    0 0 100px rgba(255,83,104,.12);
+
+  position:relative;
+}
+
+.pie::after{
+  content:'';
+
+  position:absolute;
+
+  inset:44px;
+
+  background:var(--void);
+
+  border-radius:50%;
+
+  box-shadow:
+    inset 0 0 30px rgba(255,255,255,.02);
+}
+
+.pie-legend{
+  display:flex;
+  flex-direction:column;
+
+  gap:1.15rem;
+
+  max-width:650px;
+}
+
+.leg-item{
+  display:flex;
+  align-items:center;
+
+  gap:.8rem;
+
+  font-size:1rem;
+}
+
+.leg-dot{
+  width:14px;
+  height:14px;
+
+  border-radius:4px;
+
+  flex-shrink:0;
+}
+
+.leg-item b{
+  font-family:var(--mono);
+  margin-right:.3rem;
+}
+
+.key-finding{
+  margin-top:1.2rem;
+
+  padding-top:1.2rem;
+
+  border-top:1px dashed var(--line);
+
+  font-size:1rem;
+}
+
+.key-finding b{
+  display:block;
+
+  color:var(--ink);
+
+  margin-bottom:.4rem;
+}
+
+/* =========================================================
+   TIME
+========================================================= */
+
+.clock-wrap{
+  display:flex;
+
+  gap:8rem;
+
+  align-items:center;
+
+  justify-content:center;
+
+  flex:1;
+}
+
+.clock{
+  text-align:center;
+}
+
+.clock-face{
+  width:260px;
+  height:260px;
+
+  border-radius:50%;
+
+  margin:0 auto 1.5rem;
+
+  background:
+    conic-gradient(
+      var(--gold) var(--pct,8%),
+      var(--panel2) 0
+    );
+
+  display:flex;
+
+  align-items:center;
+  justify-content:center;
+
+  position:relative;
+
+  border:1px solid var(--line);
+
+  box-shadow:
+    0 0 60px rgba(232,197,140,.06);
+}
+
+.clock-face::after{
+  content:'';
+
+  position:absolute;
+
+  inset:22px;
+
+  background:var(--void);
+
+  border-radius:50%;
+}
+
+.clock-face span{
+  position:relative;
+
+  z-index:2;
+
+  font-family:var(--mono);
+
+  font-weight:600;
+
+  font-size:1.7rem;
+}
+
+.clock-label{
+  font-family:var(--mono);
+
+  font-size:.78rem;
+
+  letter-spacing:.1em;
+
+  color:var(--ink-faint);
+
+  text-transform:uppercase;
+}
+
+/* =========================================================
+   KPI
+========================================================= */
+
+.kpi-table{
+  width:100%;
+
+  border-collapse:collapse;
+
+  margin-top:2rem;
+
+  font-size:1rem;
+}
+
+.kpi-table th{
+  text-align:left;
+
+  font-family:var(--mono);
+
+  font-size:.7rem;
+
+  letter-spacing:.1em;
+
+  color:var(--ink-faint);
+
+  text-transform:uppercase;
+
+  padding:.8rem 1rem;
+
+  border-bottom:1px solid var(--line);
+}
+
+.kpi-table td{
+  padding:1rem;
+
+  border-bottom:1px solid var(--line-soft);
+
+  color:var(--ink-dim);
+}
+
+.kpi-table td:first-child{
+  color:var(--ink);
+
+  font-weight:600;
+}
+
+.kpi-good{
+  color:var(--green);
+
+  font-weight:600;
+}
+
+.kpi-warn{
+  color:var(--yellow);
+
+  font-weight:600;
+}
+
+.kpi-bad{
+  color:var(--red);
+
+  font-weight:600;
+}
+
+/* =========================================================
+   RISK
+========================================================= */
+
+.risk-wrap{
+  display:flex;
+
+  gap:5rem;
+
+  flex:1;
+
+  align-items:center;
+}
+
+.risk-grid{
+  position:relative;
+
+  width:560px;
+  height:350px;
+
+  background:
+    linear-gradient(
+      145deg,
+      rgba(255,255,255,.035),
+      rgba(255,255,255,.01)
+    );
+
+  border:1px solid var(--line);
+
+  border-radius:14px;
+
+  flex-shrink:0;
+
+  overflow:hidden;
+}
+
+.risk-grid::before{
+  content:'';
+
+  position:absolute;
+  inset:0;
+
+  background:
+    linear-gradient(
+      to right,
+      transparent 49.8%,
+      rgba(255,255,255,.08) 50%,
+      transparent 50.2%
+    ),
+    linear-gradient(
+      to bottom,
+      transparent 49.8%,
+      rgba(255,255,255,.08) 50%,
+      transparent 50.2%
+    );
+}
+
+.risk-tag{
+  position:absolute;
+
+  font-family:var(--mono);
+
+  font-size:.7rem;
+
+  background:var(--panel2);
+
+  border:1px solid rgba(255,83,104,.35);
+
+  color:var(--red);
+
+  padding:6px 10px;
+
+  border-radius:5px;
+
+  white-space:nowrap;
+
+  transform:translate(-50%,-50%);
+
+  box-shadow:0 8px 25px rgba(0,0,0,.25);
+}
+
+.mitigation{
+  flex:1;
+
+  background:
+    linear-gradient(
+      180deg,
+      rgba(232,197,140,.1),
+      rgba(255,255,255,.015)
+    );
+
+  border:1px solid rgba(232,197,140,.5);
+
+  border-radius:14px;
+
+  padding:2.5rem;
+}
+
+.mitigation .m-label{
+  font-family:var(--mono);
+
+  font-size:.72rem;
+
+  color:var(--gold);
+
+  letter-spacing:.12em;
+
+  text-transform:uppercase;
+
+  margin-bottom:1rem;
+}
+
+.mitigation .m-big{
+  font-size:clamp(2rem,3vw,3rem);
+
+  font-weight:700;
+
+  line-height:1.15;
+}
+
+/* =========================================================
+   REVEAL
+========================================================= */
+
+#slide-10{
+  justify-content:center;
+
+  align-items:center;
+
+  text-align:center;
+
+  background:
+    radial-gradient(
+      ellipse at center,
+      rgba(255,83,104,.055),
+      #000 70%
+    );
+}
+
+#slide-10 .pre{
+  font-family:var(--mono);
+
+  font-size:.9rem;
+
+  letter-spacing:.2em;
+
+  color:var(--ink-faint);
+
+  margin-bottom:2.5rem;
+
+  text-transform:uppercase;
+}
+
+#slide-10 .big{
+  font-size:clamp(3.5rem,8vw,8rem);
+
+  font-weight:700;
+
+  line-height:.95;
+
+  letter-spacing:-.05em;
+}
+
+#slide-10 .closed{
+  margin-top:2.5rem;
+
+  font-family:var(--mono);
+
+  font-size:.75rem;
+
+  color:var(--ink-faint);
+
+  letter-spacing:.14em;
+
+  text-transform:uppercase;
+}
+
+/* =========================================================
+   ROMANTIC TURN
+========================================================= */
+
+#slide-11{
+  justify-content:center;
+
+  align-items:center;
+
+  text-align:center;
+
+  background:
+    radial-gradient(
+      ellipse at 50% 40%,
+      rgba(242,166,181,.16),
+      rgba(255,83,104,.035) 40%,
+      var(--void) 75%
+    );
+}
+
+#slide-11 .pre-line{
+  font-family:var(--serif);
+
+  font-style:italic;
+
+  font-size:clamp(1.4rem,2.2vw,2rem);
+
+  color:var(--ink-dim);
+
+  max-width:900px;
+
+  line-height:1.55;
+
+  margin-bottom:2.5rem;
+}
+
+#slide-11 .payoff{
+  font-size:clamp(3rem,6vw,6rem);
+
+  font-weight:700;
+
+  color:var(--rose);
+
+  letter-spacing:-.04em;
+
+  text-shadow:
+    0 0 50px rgba(242,166,181,.18);
+}
+
+/* =========================================================
+   FINAL RECOMMENDATION
+========================================================= */
+
+.cond-list{
+  list-style:none;
+
+  margin-top:1.5rem;
+
+  display:grid;
+
+  grid-template-columns:1fr 1fr;
+
+  gap:.9rem 3rem;
+
+  max-width:950px;
+}
+
+.cond-list li{
+  font-size:1rem;
+
+  color:var(--ink-dim);
+
+  display:flex;
+
+  gap:.7rem;
+
+  align-items:flex-start;
+}
+
+.cond-list li::before{
+  content:'☑';
+
+  color:var(--green);
+
+  flex-shrink:0;
+}
+
+.approve-stamp{
+  position:absolute;
+
+  right:8vw;
+  top:14vh;
+
+  border:3px solid var(--green);
+
+  color:var(--green);
+
+  font-family:var(--mono);
+
+  font-weight:700;
+
+  font-size:1.8rem;
+
+  letter-spacing:.1em;
+
+  padding:.7rem 1.6rem;
+
+  transform:rotate(8deg);
+
+  border-radius:5px;
+
+  opacity:0;
+
+  box-shadow:
+    0 0 30px rgba(98,230,173,.08);
+}
+
+.slide.active .approve-stamp{
+  animation:
+    stampIn .55s .45s
+    cubic-bezier(.2,.8,.3,1.3)
+    forwards;
+}
+
+@keyframes stampIn{
+  0%{
+    opacity:0;
+    transform:rotate(8deg) scale(2);
+  }
+
+  100%{
+    opacity:1;
+    transform:rotate(8deg) scale(1);
+  }
+}
+
+/* =========================================================
+   Q&A / FINAL INTERACTION
+========================================================= */
+
+#slide-12{
+  justify-content:center;
+
+  align-items:center;
+
+  text-align:center;
+
+  cursor:pointer;
+
+  background:
+    radial-gradient(
+      ellipse at center,
+      rgba(255,83,104,.06),
+      var(--void) 70%
+    );
+}
+
+.qa-step{
+  display:none;
+}
+
+.qa-step.show{
+  display:block;
+
+  animation:
+    fadeUp .7s ease;
+}
+
+@keyframes fadeUp{
+  from{
+    opacity:0;
+    transform:translateY(20px);
+  }
+
+  to{
+    opacity:1;
+    transform:translateY(0);
+  }
+}
+
+.qa-hint{
+  position:absolute;
+
+  bottom:8vh;
+
+  font-family:var(--mono);
+
+  font-size:clamp(.9rem,1.2vw,1.1rem);
+
+  color:var(--pink);
+
+  letter-spacing:.08em;
+
+  text-transform:uppercase;
+
+  padding:18px 32px;
+
+  border:1px solid rgba(242,166,181,.5);
+
+  border-radius:999px;
+
+  background:rgba(242,166,181,.06);
+
+  box-shadow:
+    0 0 35px rgba(242,166,181,.1);
+
+  animation:pulseHint 1.8s ease-in-out infinite;
+
+  cursor:pointer;
+}
+
+@keyframes pulseHint{
+  0%,100%{
+    transform:scale(1);
+
+    box-shadow:
+      0 0 25px rgba(242,166,181,.08);
+  }
+
+  50%{
+    transform:scale(1.05);
+
+    box-shadow:
+      0 0 45px rgba(242,166,181,.22);
+  }
+}
+
+/* =========================================================
+   LOVE LETTER
+========================================================= */
+
+#slide-13{
+  justify-content:center;
+
+  align-items:center;
+
+  text-align:center;
+
+  padding:
+    6vh
+    8vw;
+
+  overflow:hidden;
+
+  background:
+    radial-gradient(
+      circle at 50% 25%,
+      rgba(255,83,104,.12),
+      transparent 35%
+    ),
+    radial-gradient(
+      circle at 20% 80%,
+      rgba(232,197,140,.06),
+      transparent 30%
+    ),
+    #090508;
+}
+
+.love-letter-wrap{
+  width:min(900px,90vw);
+
+  max-height:82vh;
+
+  overflow:auto;
+
+  padding:
+    clamp(2rem,5vw,4.5rem);
+
+  border:1px solid rgba(242,166,181,.2);
+
+  border-radius:24px;
+
+  background:
+    linear-gradient(
+      145deg,
+      rgba(255,255,255,.045),
+      rgba(255,255,255,.012)
+    );
+
+  box-shadow:
+    0 30px 120px rgba(0,0,0,.4),
+    0 0 80px rgba(255,83,104,.06);
+
+  backdrop-filter:blur(18px);
+
+  scrollbar-width:none;
+}
+
+.love-letter-wrap::-webkit-scrollbar{
+  display:none;
+}
+
+.love-kicker{
+  font-family:var(--mono);
+
+  color:var(--rose);
+
+  font-size:.72rem;
+
+  letter-spacing:.2em;
+
+  text-transform:uppercase;
+
+  margin-bottom:1.5rem;
+}
+
+.love-title{
+  font-family:var(--serif);
+
+  font-size:clamp(2.8rem,5vw,5rem);
+
+  line-height:1;
+
+  font-weight:600;
+
+  margin-bottom:.7rem;
+
+  color:var(--pink);
+}
+
+.love-date{
+  font-family:var(--mono);
+
+  color:var(--ink-faint);
+
+  font-size:.72rem;
+
+  letter-spacing:.15em;
+
+  margin-bottom:2.5rem;
+
+  text-transform:uppercase;
+}
+
+.love-body{
+  font-family:var(--serif);
+
+  font-size:clamp(1.05rem,1.45vw,1.35rem);
+
+  line-height:1.8;
+
+  color:#e9dde0;
+
+  text-align:left;
+}
+
+.love-body p{
+  margin-bottom:1.25rem;
+}
+
+.love-body .opening{
+  font-size:1.15em;
+
+  color:var(--pink);
+}
+
+.signature{
+  margin-top:2rem;
+
+  text-align:right;
+
+  font-family:var(--serif);
+
+  font-style:italic;
+
+  font-size:1.5rem;
+
+  color:var(--rose);
+}
+
+.final-heart{
+  margin-top:1.5rem;
+
+  font-size:2.2rem;
+
+  animation:heartbeat 1.5s ease-in-out infinite;
+}
+
+@keyframes heartbeat{
+  0%,100%{transform:scale(1)}
+  15%{transform:scale(1.18)}
+  30%{transform:scale(1)}
+  45%{transform:scale(1.1)}
+}
+
+.love-confetti{
+  position:absolute;
+
+  inset:0;
+
+  pointer-events:none;
+
+  overflow:hidden;
+}
+
+.love-confetti span{
+  position:absolute;
+
+  top:-20px;
+
+  color:var(--rose);
+
+  opacity:.5;
+
+  animation:fall linear infinite;
+}
+
+@keyframes fall{
+  to{
+    transform:
+      translateY(110vh)
+      rotate(360deg);
+  }
+}
+
+/* =========================================================
+   NAVIGATION
+========================================================= */
+
+.navbar{
+  position:fixed;
+
+  bottom:0;
+
+  left:0;
+  right:0;
+
+  z-index:20;
+
+  display:flex;
+
+  align-items:center;
+
+  justify-content:center;
+
+  gap:1.6rem;
+
+  padding:1.4rem 0;
+
+  background:
+    linear-gradient(
+      to top,
+      rgba(0,0,0,.7),
+      transparent
+    );
+
+  pointer-events:none;
+}
+
+.navbar > *{
+  pointer-events:auto;
+}
+
+.nav-btn{
+  width:42px;
+  height:42px;
+
+  border-radius:50%;
+
+  border:1px solid var(--line);
+
+  background:rgba(17,11,18,.8);
+
+  color:var(--ink);
+
+  display:flex;
+
+  align-items:center;
+
+  justify-content:center;
+
+  cursor:pointer;
+
+  font-size:1rem;
+
+  transition:.25s;
+}
+
+.nav-btn:hover{
+  border-color:var(--gold);
+
+  color:var(--gold);
+
+  transform:translateY(-2px);
+}
+
+.dots{
+  display:flex;
+
+  gap:7px;
+}
+
+.dot-btn{
+  width:7px;
+  height:7px;
+
+  border-radius:50%;
+
+  background:var(--ink-faint);
+
+  cursor:pointer;
+
+  transition:all .25s;
+}
+
+.dot-btn.active{
+  background:var(--gold);
+
+  width:22px;
+
+  border-radius:4px;
+
+  box-shadow:0 0 10px rgba(232,197,140,.3);
+}
+
+.counter{
+  font-family:var(--mono);
+
+  font-size:.7rem;
+
+  color:var(--ink-faint);
+
+  letter-spacing:.1em;
+
+  min-width:52px;
+
+  text-align:center;
+}
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+
+@media(max-width:1100px){
+
+  .slide{
+    padding:
+      7vh
+      6vw
+      12vh;
+  }
+
+  .hyp-grid{
+    grid-template-columns:1fr 1fr;
+  }
+
+  .method-wrap{
+    gap:2rem;
+  }
+
+  .engine-box{
+    flex-basis:300px;
+  }
+
+  .clock-wrap{
+    gap:4rem;
+  }
+
+  .clock-face{
+    width:210px;
+    height:210px;
+  }
+
+  .risk-grid{
+    width:440px;
+    height:300px;
+  }
+
+}
+
+@media(max-width:820px){
+
+  .slide{
+    padding:
+      7vh
+      6vw
+      13vh;
+  }
+
+  .grid-2x2,
+  .hyp-grid{
+    grid-template-columns:1fr;
+  }
+
+  .hyp-card{
+    min-height:auto;
+  }
+
+  .method-wrap,
+  .pie-wrap,
+  .clock-wrap,
+  .risk-wrap{
+    flex-direction:column;
+
+    align-items:center;
+
+    gap:2rem;
+
+    overflow:auto;
+  }
+
+  .method-wrap{
+    align-items:stretch;
+  }
+
+  .engine-box{
+    flex-basis:auto;
+    width:100%;
+  }
+
+  .pie{
+    width:220px;
+    height:220px;
+  }
+
+  .clock-wrap{
+    justify-content:center;
+  }
+
+  .clock-face{
+    width:180px;
+    height:180px;
+  }
+
+  .risk-grid{
+    width:100%;
+    height:250px;
+  }
+
+  .mitigation{
+    width:100%;
+  }
+
+  .cond-list{
+    grid-template-columns:1fr;
+  }
+
+  .approve-stamp{
+    position:static;
+
+    margin-top:1.5rem;
+
+    transform:rotate(0deg);
+
+    opacity:1;
+  }
+
+  .cover-meta{
+    flex-direction:column;
+
+    gap:1rem;
+
+    align-items:center;
+  }
+
+  .footnote{
+    display:none;
+  }
+
+  .navbar{
+    gap:.7rem;
+  }
+
+  .dots{
+    display:none;
+  }
+
+  .love-letter-wrap{
+    max-height:78vh;
+  }
+}
+
+@media(prefers-reduced-motion:reduce){
+
+  *,
+  *::before,
+  *::after{
+    animation:none !important;
+    transition:none !important;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<div class="grid-overlay"></div>
+<div class="scanline"></div>
+
+<div class="deck">
+
+<!-- ======================================================
+     SLIDE 1 — COVER
+====================================================== -->
+
+<section class="slide active" id="slide-1">
+
+  <div class="cover-glow"></div>
+
+  <div class="cover-case">
+    CASE FILE: SH-2026-014
+  </div>
+
+  <div class="cover-title">
+    THE STATE OF<br>
+    OUR <span>RELATIONSHIP</span>
+  </div>
+
+  <p class="cover-sub">
+    An Independent Investigation into Love, Logic &
+    Questionable Decisions — Fourteen-Month Review
+  </p>
+
+  <div class="cover-meta">
+
+    <div>
+      Presented by
+      <b>SAMSON</b>
+    </div>
+
+    <div>
+      Subject
+      <b>HAPPINESS</b>
+    </div>
+
+    <div>
+      Classification
+      <b style="color:var(--red)">
+        HIGHLY SENSITIVE
+      </b>
+    </div>
+
+  </div>
+
+  <span class="stamp">
+    CONFIDENTIAL
+  </span>
+
+  <div class="footnote">
+    <span>RELATIONSHIP ANALYTICS DIVISION</span>
+    <span>FILED 13.09.2026</span>
+  </div>
+
+</section>
+
+
+<!-- ======================================================
+     SLIDE 2 — EXECUTIVE SUMMARY
+====================================================== -->
+
+<section class="slide" id="slide-2">
+
+  <div class="eyebrow">
+    <span class="dot"></span>
+    SECTION 01 / EXECUTIVE SUMMARY
+  </div>
+
+  <h2
+    class="headline"
+    style="font-size:clamp(2rem,4vw,3.4rem)"
+  >
+    Executive Summary
+  </h2>
+
+  <p
+    style="
+      color:var(--ink-dim);
+      max-width:850px;
+      margin-top:1.2rem;
+      font-size:clamp(1rem,1.2vw,1.2rem);
+      line-height:1.6;
+    "
+  >
+    After fourteen months of extensive investigation,
+    behavioral observation, and analysis of several highly
+    questionable incidents involving Samson and Happiness,
+    the relationship has been assigned the following
+    operational status:
+  </p>
+
+  <div class="grid-2x2">
+
+    <div class="status-card green">
+      <div class="tag">● Active</div>
+
+      <p>
+        Relationship remains fully operational,
+        fourteen months and counting.
+      </p>
+    </div>
+
+    <div class="status-card green">
+      <div class="tag">● Highly Emotional</div>
+
+      <p>
+        Emotional volatility continues to exceed
+        standard operating parameters.
+      </p>
+    </div>
+
+    <div class="status-card yellow">
+      <div class="tag">● Financially Questionable</div>
+
+      <p>
+        Further expenditure on dates and surprises
+        requires investigation.
+      </p>
+    </div>
+
+    <div class="status-card red">
+      <div class="tag">● Subject to Random Arguments</div>
+
+      <p>
+        Triggers remain extremely difficult to predict.
+      </p>
+    </div>
+
+  </div>
+
+  <div class="overall-bar">
+
+    <div class="label">
+      Overall Relationship Status
+    </div>
+
+    <div class="val">
+      OPERATIONAL —
+      <span style="color:var(--yellow)">
+        BUT UNSTABLE
+      </span>
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- ======================================================
+     SLIDE 3 — CENTRAL QUESTION
+====================================================== -->
+
+<section class="slide" id="slide-3">
+
+  <div class="eyebrow">
+    <span class="dot"></span>
+    SECTION 02 / CENTRAL RESEARCH QUESTION
+  </div>
+
+  <h2
+    class="headline"
+    style="font-size:clamp(2.5rem,5vw,4.5rem)"
+  >
+    Who is Actually the Problem?
+  </h2>
+
+  <div class="hyp-grid">
+
+    <div class="hyp-card">
+      <div class="h-label">HYPOTHESIS A</div>
+
+      <div class="h-name">
+        Samson
+      </div>
+
+      <p>
+        Potentially responsible for selected
+        incidents under review.
+      </p>
+    </div>
+
+    <div class="hyp-card">
+      <div class="h-label">HYPOTHESIS B</div>
+
+      <div class="h-name">
+        Happiness
+      </div>
+
+      <p>
+        Strong circumstantial evidence exists,
+        though motive remains unclear.
+      </p>
+    </div>
+
+    <div class="hyp-card">
+      <div class="h-label">HYPOTHESIS C</div>
+
+      <div class="h-name">
+        The Relationship Itself
+      </div>
+
+      <p>
+        A systemic issue at the structural
+        level cannot be ruled out.
+      </p>
+    </div>
+
+    <div class="hyp-card lead">
+      <div class="h-label">HYPOTHESIS D</div>
+
+      <div class="h-name">
+        We Are Both Unserious
+      </div>
+
+      <p>
+        Currently the leading scientific
+        hypothesis, by a wide margin.
+      </p>
+    </div>
+
+  </div>
+
+  <div class="footnote">
+    <span>CONFIDENCE LEVEL: 97.4%</span>
+    <span>PAGE 03/12</span>
+  </div>
+
+</section>
+
+
+<!-- ======================================================
+     SLIDE 4 — METHODOLOGY
+====================================================== -->
+
+<section class="slide" id="slide-4">
+
+  <div class="eyebrow">
+    <span class="dot"></span>
+    SECTION 03 / METHODOLOGY
+  </div>
+
+  <h2
+    class="headline"
+    style="font-size:clamp(2rem,4vw,3.4rem)"
+  >
+    Data Collection Methodology
+  </h2>
+
+  <p
+    style="
+      color:var(--ink-dim);
+      margin-top:.9rem;
+      font-size:1rem;
+    "
+  >
+    The investigation relied on several highly
+    sophisticated sources of evidence.
+  </p>
+
+  <div class="method-wrap">
+
+    <div class="evidence-list">
+
+      <div class="evidence-item">
+        WhatsApp conversations
+      </div>
+
+      <div class="evidence-item">
+        Historical arguments
+      </div>
+
+      <div class="evidence-item">
+        Food-sharing incidents
+      </div>
+
+      <div class="evidence-item">
+        "I'm fine" statements
+      </div>
+
+      <div class="evidence-item">
+        Late replies
+      </div>
+
+      <div class="evidence-item">
+        Facial expressions
+      </div>
+
+      <div class="evidence-item">
+        Voice tone
+      </div>
+
+      <div class="evidence-item">
+        Previous crimes
+      </div>
+
+      <div class="evidence-item">
+        Unexplained mood changes
+      </div>
+
+      <div class="evidence-item">
+        Suspicious punctuation
+      </div>
+
+    </div>
+
+    <div class="engine-box">
+
+      <div class="name">
+        RELATIONSHIP<br>
+        ANALYTICS ENGINE
+      </div>
+
+      <div class="stat-row">
+        <span>Sample size</span>
+        <b>2 people</b>
+      </div>
+
+      <div class="stat-row">
+        <span>Data quality</span>
+        <b>Questionable</b>
+      </div>
+
+      <div class="stat-row">
+        <span>Bias</span>
+        <b>Extremely high</b>
+      </div>
+
+      <div class="stat-row">
+        <span>Scientific integrity</span>
+        <b>Questionable</b>
+      </div>
+
+      <div class="stat-row">
+        <span>Peer review</span>
+        <b>Absolutely not</b>
+      </div>
+
+    </div>
+
+  </div>
+
+  <div class="footnote">
+    <span>
+      No relationship was harmed during data collection.
+    </span>
+
+    <span>PAGE 04/12</span>
+  </div>
+
+</section>
+
+
+<!-- ======================================================
+     SLIDE 5 — I'M FINE
+====================================================== -->
+
+<section class="slide" id="slide-5">
+
+  <div class="eyebrow">
+    <span class="dot"></span>
+    SECTION 04 / LINGUISTIC ANALYSIS
+  </div>
+
+  <h2
+    class="headline"
+    style="font-size:clamp(2rem,4vw,3.4rem)"
+  >
+    The "I'm Fine" Phenomenon
+  </h2>
+
+  <p
+    style="
+      color:var(--ink-dim);
+      margin-top:.7rem;
+      font-size:1rem;
+    "
+  >
+    Distribution of "I'm fine" statements made by
+    Happiness, as recorded by Samson.
+  </p>
+
+  <div class="pie-wrap">
+
+    <div class="pie"></div>
+
+    <div class="pie-legend">
+
+      <div class="leg-item">
+        <span
+          class="leg-dot"
+          style="background:var(--ink-faint)"
+        ></span>
+        <b>5%</b>
+        Actually Fine
+      </div>
+
+      <div class="leg-item">
+        <span
+          class="leg-dot"
+          style="background:var(--yellow)"
+        ></span>
+        <b>25%</b>
+        Slightly Annoyed
+      </div>
+
+      <div class="leg-item">
+        <span
+          class="leg-dot"
+          style="background:var(--rose)"
+        ></span>
+        <b>30%</b>
+        Wants You to Notice Something
+      </div>
+
+      <div class="leg-item">
+        <span
+          class="leg-dot"
+          style="background:var(--red)"
+        ></span>
+        <b>40%</b>
+        You Have Already Committed an Unknown Offense
+      </div>
+
+      <div class="key-finding">
+
+        <b>Key Finding</b>
+
+        <span style="color:var(--ink-dim)">
+          "Fine" is not a reliable indicator of fine-ness.
+        </span>
+
+      </div>
+
+    </div>
+
+  </div>
+
+  <div class="footnote">
+    <span>
+      RECOMMENDED RESPONSE: PROCEED WITH CAUTION
+    </span>
+
+    <span>PAGE 05/12</span>
+  </div>
+
+</section>
+
+
+<!-- ======================================================
+     SLIDE 6 — TIME
+====================================================== -->
+
+<section class="slide" id="slide-6">
+
+  <div class="eyebrow">
+    <span class="dot"></span>
+    SECTION 05 / TEMPORAL PERCEPTION
+  </div>
+
+  <h2
+    class="headline"
+    style="font-size:clamp(2rem,4vw,3.4rem)"
+  >
+    Temporal Perception Study
+  </h2>
+
+  <p
+    style="
+      color:var(--ink-dim);
+      margin-top:.7rem;
+      font-size:1rem;
+      text-align:center;
+    "
+  >
+    Researchers identified a significant discrepancy
+    in the interpretation of "5 minutes."
+  </p>
+
+  <div class="clock-wrap">
+
+    <div class="clock">
+
+      <div
+        class="clock-face"
+        style="--pct:8%"
+      >
+        <span>5 min</span>
+      </div>
+
+      <div class="clock-label">
+        Samson's "5 Minutes"
+      </div>
+
+    </div>
+
+    <div class="clock">
+
+      <div
+        class="clock-face"
+        style="
+          --pct:78%;
+          background:
+          conic-gradient(
+            var(--red) 78%,
+            var(--panel-2) 0
+          );
+        "
+      >
+        <span>47 min</span>
+      </div>
+
+      <div class="clock-label">
+        Happiness's "5 Minutes"
+      </div>
+
+    </div>
+
+  </div>
+
+  <div class="footnote">
+    <span>VARIANCE: +840%</span>
+    <span>PAGE 06/12</span>
+  </div>
+
+</section>
+
+
+<!-- ======================================================
+     SLIDE 7 — KPI
+====================================================== -->
+
+<section class="slide" id="slide-7">
+
+  <div class="eyebrow">
+    <span class="dot"></span>
+    SECTION 06 / PERFORMANCE DASHBOARD
+  </div>
+
+  <h2
+    class="headline"
+    style="font-size:clamp(2rem,4vw,3.4rem)"
+  >
+    Relationship Performance Dashboard
+  </h2>
+
+  <table class="kpi-table">
+
+    <thead>
+      <tr>
+        <th>KPI</th>
+        <th>Target</th>
+        <th>Actual</th>
+      </tr>
+    </thead>
+
+    <tbody>
+
+      <tr>
+        <td>Love</td>
+        <td>100%</td>
+        <td class="kpi-good">147% ▲</td>
+      </tr>
+
+      <tr>
+        <td>Arguments</td>
+        <td>&lt;5/month</td>
+        <td class="kpi-bad">🚨 Flagged</td>
+      </tr>
+
+      <tr>
+        <td>Random teasing</td>
+        <td>Moderate</td>
+        <td class="kpi-warn">900% ▲</td>
+      </tr>
+
+      <tr>
+        <td>Food theft</td>
+        <td>0%</td>
+        <td class="kpi-bad">📈 Rising</td>
+      </tr>
+
+      <tr>
+        <td>"I miss you"</td>
+        <td>High</td>
+        <td class="kpi-good">High ▲</td>
+      </tr>
+
+      <tr>
+        <td>Peace</td>
+        <td>100%</td>
+        <td class="kpi-warn">
+          Depends on the day
+        </td>
+      </tr>
+
+      <tr>
+        <td>Cuteness</td>
+        <td>N/A</td>
+        <td class="kpi-bad">Dangerous</td>
+      </tr>
+
+    </tbody>
+
+  </table>
+
+  <div
+    style="
+      margin-top:1.8rem;
+      font-family:var(--mono);
+      font-size:.72rem;
+      color:var(--ink-faint);
+      letter-spacing:.12em;
+      text-transform:uppercase;
+    "
+  >
+    Overall Performance
+  </div>
+
+  <div
+    style="
+      font-size:clamp(1.5rem,2vw,2rem);
+      font-weight:700;
+      color:var(--green);
+      margin-top:.3rem;
+    "
+  >
+    Unexpectedly strong.
+  </div>
+
+</section>
+
+
+<!-- ======================================================
+     SLIDE 8 — RISK
+====================================================== -->
+
+<section class="slide" id="slide-8">
+
+  <div class="eyebrow">
+    <span class="dot"></span>
+    SECTION 07 / RISK ASSESSMENT
+  </div>
+
+  <h2
+    class="headline"
+    style="font-size:clamp(2rem,4vw,3.4rem)"
+  >
+    High-Risk Events Identified
+  </h2>
+
+  <div class="risk-wrap">
+
+    <div class="risk-grid">
+
+      <div
+        class="risk-tag"
+        style="left:22%;top:20%"
+      >
+        🚨 "Who is that?"
+      </div>
+
+      <div
+        class="risk-tag"
+        style="left:70%;top:15%"
+      >
+        🚨 "We need to talk."
+      </div>
+
+      <div
+        class="risk-tag"
+        style="left:35%;top:48%"
+      >
+        🚨 "Nothing is wrong."
+      </div>
+
+      <div
+        class="risk-tag"
+        style="left:80%;top:55%"
+      >
+        🚨 "Do you remember what you said?"
+      </div>
+
+      <div
+        class="risk-tag"
+        style="left:20%;top:78%"
+      >
+        🚨 "It's okay."
+      </div>
+
+      <div
+        class="risk-tag"
+        style="left:60%;top:85%"
+      >
+        🚨 "I'm not angry."
+      </div>
+
+    </div>
+
+    <div class="mitigation">
+
+      <div class="m-label">
+        Risk Mitigation Strategy
+      </div>
+
+      <div class="m-big">
+        HUG IMMEDIATELY.<br>
+        ASK QUESTIONS LATER.
+      </div>
+
+    </div>
+
+  </div>
+
+  <div class="footnote">
+    <span>EFFECTIVENESS: SURPRISINGLY HIGH</span>
+    <span>PAGE 08/12</span>
+  </div>
+
+</section>
+
+
+<!-- ======================================================
+     SLIDE 9 — CONTROVERSIAL FINDING
+====================================================== -->
+
+<section class="slide" id="slide-9">
+
+  <div class="pre">
+    After Extensive Investigation…
+  </div>
+
+  <div class="big">
+    WE ARE BOTH<br>
+    THE PROBLEM.
+  </div>
+
+  <div class="closed">
+    Investigation Status: Case Closed
+  </div>
+
+</section>
+
+
+<!-- ======================================================
+     SLIDE 10 — THE TURN
+====================================================== -->
+
+<section class="slide" id="slide-10">
+
+  <p class="pre-line">
+    Despite all the arguments, the nonsense,
+    the misunderstandings and the unnecessary drama —
+  </p>
+
+  <div class="payoff">
+    I'd still choose you. ❤️
+  </div>
+
+</section>
+
+
+<!-- ======================================================
+     SLIDE 11 — FINAL RECOMMENDATION
+====================================================== -->
+
+<section class="slide" id="slide-11">
+
+  <div class="approve-stamp">
+    APPROVED
+  </div>
+
+  <div class="eyebrow">
+    <span class="dot"></span>
+    SECTION 08 / FINAL RECOMMENDATION
+  </div>
+
+  <h2
+    class="headline"
+    style="font-size:clamp(2.5rem,5vw,4rem)"
+  >
+    Continue Relationship.
+  </h2>
+
+  <div
+    style="
+      font-family:var(--mono);
+      font-size:.72rem;
+      color:var(--ink-faint);
+      letter-spacing:.1em;
+      text-transform:uppercase;
+      margin-top:1.5rem;
+    "
+  >
+    Conditions of Renewal
+  </div>
+
+  <ul class="cond-list">
+
+    <li>More dates</li>
+
+    <li>More laughter</li>
+
+    <li>Less unnecessary arguments</li>
+
+    <li>Unlimited hugs</li>
+
+    <li>Samson's food remains Samson's food</li>
+
+    <li>
+      Happiness remains ridiculously beautiful
+    </li>
+
+    <li>
+      Contract renewed indefinitely
+    </li>
+
+  </ul>
+
+  <div
+    style="
+      margin-top:2rem;
+      font-size:1.2rem;
+    "
+  >
+    Status:
+    <b style="color:var(--green)">
+      Approved for another year ❤️
+    </b>
+  </div>
+
+  <div class="footnote">
+    <span>LEAD INVESTIGATOR: SAMSON</span>
+    <span>PAGE 11/13</span>
+  </div>
+
+</section>
+
+
+<!-- ======================================================
+     SLIDE 12 — Q&A / LOVE REVEAL
+====================================================== -->
+
+<section
+  class="slide"
+  id="slide-12"
+  onclick="advanceQA()"
+>
+
+  <div class="qa-step show" data-step="0">
+
+    <div
+      class="eyebrow"
+      style="justify-content:center"
+    >
+      <span class="dot"></span>
+      FINAL QUESTIONS
+    </div>
+
+    <h2
+      class="headline"
+      style="font-size:clamp(2.5rem,5vw,4.5rem)"
+    >
+      Do you have any questions?
+    </h2>
+
+  </div>
+
+
+  <div
+    class="qa-step"
+    data-step="1"
+  >
+
+    <div
+      style="
+        font-family:var(--serif);
+        font-style:italic;
+        font-size:clamp(1.7rem,3vw,2.5rem);
+        color:var(--ink-dim);
+      "
+    >
+      Actually…
+    </div>
+
+  </div>
+
+
+  <div
+    class="qa-step"
+    data-step="2"
+  >
+
+    <h2
+      class="headline"
+      style="
+        font-size:clamp(2rem,4.5vw,4rem);
+      "
+    >
+      Why did you make this presentation?
+    </h2>
+
+  </div>
+
+
+  <div
+    class="qa-step"
+    data-step="3"
+  >
+
+    <div
+      class="headline"
+      style="
+        font-size:clamp(3rem,6vw,6rem);
+        color:var(--rose);
+      "
+    >
+      Because I love you.
+    </div>
+
+    <div
+      style="
+        font-family:var(--serif);
+        font-style:italic;
+        font-size:clamp(1.2rem,1.8vw,1.6rem);
+        color:var(--ink-dim);
+        margin-top:1.2rem;
+      "
+    >
+      And I wanted to annoy you professionally. 😂❤️
+    </div>
+
+  </div>
+
+
+  <div
+    class="qa-step"
+    data-step="4"
+  >
+
+    <div
+      style="
+        font-family:var(--mono);
+        color:var(--rose);
+        font-size:.8rem;
+        letter-spacing:.15em;
+        text-transform:uppercase;
+        margin-bottom:1.5rem;
+      "
+    >
+      Investigation Complete
+    </div>
+
+    <div
+      style="
+        font-family:var(--serif);
+        font-size:clamp(2rem,4vw,3.5rem);
+        color:var(--pink);
+        margin-bottom:1.5rem;
+      "
+    >
+      But there is one more thing…
+    </div>
+
+    <button
+      class="anniversary-button"
+      onclick="event.stopPropagation(); revealLetter();"
+    >
+      ❤️ TAP HERE FOR YOUR ACTUAL ANNIVERSARY MESSAGE ❤️
+    </button>
+
+  </div>
+
+
+  <div
+    class="qa-hint"
+    id="qa-hint"
+  >
+    TAP TO CONTINUE
+  </div>
+
+</section>
+
+
+<!-- ======================================================
+     SLIDE 13 — LOVE LETTER
+====================================================== -->
+
+<section class="slide" id="slide-13">
+
+  <div class="love-confetti">
+
+    <span style="left:5%;animation-duration:12s">♥</span>
+    <span style="left:14%;animation-duration:15s;animation-delay:2s">♡</span>
+    <span style="left:24%;animation-duration:10s;animation-delay:4s">♥</span>
+    <span style="left:37%;animation-duration:14s;animation-delay:1s">♡</span>
+    <span style="left:51%;animation-duration:11s;animation-delay:5s">♥</span>
+    <span style="left:64%;animation-duration:16s;animation-delay:3s">♡</span>
+    <span style="left:76%;animation-duration:13s;animation-delay:6s">♥</span>
+    <span style="left:89%;animation-duration:17s;animation-delay:2s">♡</span>
+
+  </div>
+
+  <div class="love-letter-wrap">
+
+    <div class="love-kicker">
+      CASE FILE SH-2026-014 • FINAL STATEMENT
+    </div>
+
+    <h1 class="love-title">
+      Happy Anniversary,
+      My Love.
+    </h1>
+
+    <div class="love-date">
+      Another year. Another chapter. Still you.
+    </div>
+
+    <div class="love-body">
+
+      <p class="opening">
+        Happiness,
+      </p>
+
+      <p>
+        If you have made it this far, congratulations.
+        You have officially survived an extremely
+        unnecessary investigation into our relationship.
+      </p>
+
+      <p>
+        I could have simply told you that I love you.
+        I could have written you a normal anniversary
+        message like a normal person.
+        But where would the fun be in that?
+      </p>
+
+      <p>
+        So instead, I conducted a completely unscientific
+        investigation into our arguments, our laughter,
+        our nonsense, our misunderstandings, our little
+        moments, and all the ridiculous things that make
+        us <em>us</em>.
+      </p>
+
+      <p>
+        And somehow, after looking at everything,
+        the conclusion became even clearer:
+        <strong>I'd choose you all over again.</strong>
+      </p>
+
+      <p>
+        I love the way you make ordinary moments feel
+        special. I love the laughter, the teasing,
+        the conversations that somehow go on forever,
+        and even the moments when neither of us can
+        understand how a simple conversation became
+        a full-scale diplomatic crisis.
+      </p>
+
+      <p>
+        I love the woman you are, and I love the person
+        I get to be when I'm with you.
+        You have become such a beautiful part of my life,
+        and I don't take that for granted.
+      </p>
+
+      <p>
+        There will probably be more arguments.
+        There will definitely be more stolen food.
+        There will be more "I'm fine" investigations,
+        more ridiculous jokes, more memories,
+        more adventures and probably several more
+        completely unnecessary debates.
+      </p>
+
+      <p>
+        And honestly?
+        <strong>
+          I wouldn't trade any of it.
+        </strong>
+      </p>
+
+      <p>
+        Because at the end of every argument,
+        every joke, every crazy day and every quiet moment,
+        there is still one person I want beside me.
+      </p>
+
+      <p
+        style="
+          color:var(--pink);
+          font-size:1.15em;
+        "
+      >
+        You.
+      </p>
+
+      <p>
+        Thank you for loving me.
+        Thank you for putting up with me.
+        Thank you for being you.
+        And thank you for giving me another chapter
+        of this beautiful, chaotic story that we are
+        writing together.
+      </p>
+
+      <p>
+        Happy Anniversary, my love.
+        Here's to everything we've already been through,
+        everything we're going to experience,
+        and every ridiculous little memory still waiting
+        for us.
+      </p>
+
+      <p>
+        The investigation may be closed…
+        but our story is nowhere near finished.
+      </p>
+
+    </div>
+
+    <div class="signature">
+      Forever your co-conspirator,<br>
+      Samson ❤️
+    </div>
+
+    <div class="final-heart">
+      ❤️
+    </div>
+
+  </div>
+
+</section>
+
+</div>
+
+
+<!-- ======================================================
+     NAVIGATION
+====================================================== -->
+
+<div class="navbar">
+
+  <button
+    class="nav-btn"
+    onclick="go(-1)"
+    aria-label="Previous"
+  >
+    &#8592;
+  </button>
+
+  <div
+    class="dots"
+    id="dots"
+  ></div>
+
+  <span
+    class="counter"
+    id="counter"
+  >
+    01/13
+  </span>
+
+  <button
+    class="nav-btn"
+    onclick="go(1)"
+    aria-label="Next"
+  >
+    &#8594;
+  </button>
+
+</div>
+
+
+<script>
+
+const total = 13;
+
+let current = 0;
+
+const dotsEl =
+  document.getElementById('dots');
+
+const counterEl =
+  document.getElementById('counter');
+
+const hintEl =
+  document.getElementById('qa-hint');
+
+
+/* =========================================================
+   DOT NAVIGATION
+========================================================= */
+
+for(let i = 0; i < total; i++){
+
+  const d =
+    document.createElement('div');
+
+  d.className =
+    'dot-btn' + (i === 0 ? ' active' : '');
+
+  d.onclick = (e) => {
+
+    e.stopPropagation();
+
+    goTo(i);
+
+  };
+
+  dotsEl.appendChild(d);
+
+}
+
+
+/* =========================================================
+   RENDER
+========================================================= */
+
+function render(){
+
+  document
+    .querySelectorAll('.slide')
+    .forEach((slide,i)=>{
+
+      slide.classList.toggle(
+        'active',
+        i === current
+      );
+
+    });
+
+
+  document
+    .querySelectorAll('.dot-btn')
+    .forEach((dot,i)=>{
+
+      dot.classList.toggle(
+        'active',
+        i === current
+      );
+
+    });
+
+
+  counterEl.textContent =
+    String(current + 1)
+      .padStart(2,'0')
+    + '/'
+    + total;
+
+
+  if(current === 11){
+
+    resetQA();
+
+  }
+
+}
+
+
+/* =========================================================
+   BASIC NAV
+========================================================= */
+
+function goTo(i){
+
+  current =
+    Math.max(
+      0,
+      Math.min(total - 1, i)
+    );
+
+  render();
+
+}
+
+
+function go(delta){
+
+  goTo(current + delta);
+
+}
+
+
+/* =========================================================
+   KEYBOARD
+========================================================= */
+
+document.addEventListener(
+  'keydown',
+  (e)=>{
+
+    if(
+      e.key === 'ArrowRight' ||
+      e.key === ' '
+    ){
+
+      e.preventDefault();
+
+      if(current === 11){
+
+        advanceQA();
+
+      }else{
+
+        go(1);
+
+      }
+
+    }
+
+
+    if(e.key === 'ArrowLeft'){
+
+      go(-1);
+
+    }
+
+  }
+);
+
+
+/* =========================================================
+   TOUCH SWIPE
+========================================================= */
+
+let touchX = null;
+
+document.addEventListener(
+  'touchstart',
+  e => {
+
+    touchX =
+      e.touches[0].clientX;
+
+  }
+);
+
+
+document.addEventListener(
+  'touchend',
+  e => {
+
+    if(touchX === null) return;
+
+    const dx =
+      e.changedTouches[0].clientX -
+      touchX;
+
+    if(Math.abs(dx) > 50){
+
+      dx < 0
+        ? go(1)
+        : go(-1);
+
+    }
+
+    touchX = null;
+
+  }
+);
+
+
+/* =========================================================
+   QA STAGED REVEAL
+========================================================= */
+
+let qaStep = 0;
+
+
+function resetQA(){
+
+  qaStep = 0;
+
+  document
+    .querySelectorAll('.qa-step')
+    .forEach(step => {
+
+      step.classList.toggle(
+        'show',
+        step.dataset.step === '0'
+      );
+
+    });
+
+  hintEl.style.display = 'block';
+
+}
+
+
+/* =========================================================
+   ADVANCE Q&A
+========================================================= */
+
+function advanceQA(){
+
+  if(current !== 11) return;
+
+  if(qaStep >= 4) return;
+
+  qaStep++;
+
+  document
+    .querySelectorAll('.qa-step')
+    .forEach(step => {
+
+      step.classList.toggle(
+        'show',
+        Number(step.dataset.step) === qaStep
+      );
+
+    });
+
+
+  if(qaStep === 4){
+
+    hintEl.style.display = 'none';
+
+  }
+
+}
+
+
+/* =========================================================
+   ANNIVERSARY LETTER
+========================================================= */
+
+function revealLetter(){
+
+  current = 12;
+
+  render();
+
+}
+
+
+/* =========================================================
+   INIT
+========================================================= */
+
+render();
+
+</script>
+
+
+<style>
+
+/* =========================================================
+   ANNIVERSARY BUTTON
+========================================================= */
+
+.anniversary-button{
+
+  margin-top:2rem;
+
+  padding:
+    20px
+    34px;
+
+  border-radius:999px;
+
+  border:
+    1px solid
+    rgba(242,166,181,.65);
+
+  background:
+    linear-gradient(
+      135deg,
+      rgba(255,83,104,.16),
+      rgba(242,166,181,.08)
+    );
+
+  color:var(--pink);
+
+  font-family:var(--mono);
+
+  font-size:
+    clamp(.8rem,1.1vw,1rem);
+
+  letter-spacing:.08em;
+
+  text-transform:uppercase;
+
+  cursor:pointer;
+
+  box-shadow:
+    0 0 40px rgba(255,83,104,.12);
+
+  transition:
+    transform .25s ease,
+    box-shadow .25s ease,
+    background .25s ease;
+}
+
+.anniversary-button:hover{
+
+  transform:
+    translateY(-4px)
+    scale(1.03);
+
+  background:
+    linear-gradient(
+      135deg,
+      rgba(255,83,104,.25),
+      rgba(242,166,181,.14)
+    );
+
+  box-shadow:
+    0 0 70px rgba(255,83,104,.25);
+
+}
+
+</style>
+
+</body>
+</html>
+```
